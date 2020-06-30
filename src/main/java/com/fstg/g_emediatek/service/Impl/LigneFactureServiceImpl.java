@@ -7,13 +7,11 @@ package com.fstg.g_emediatek.service.Impl;
 
 
 import com.fstg.e_emediatek.service.LigneFactureService;
-import com.fstg.e_emediatek.service.ProduitService;
 import com.fstg.g_emediatek.bean.Facture;
 import com.fstg.g_emediatek.bean.LigneFacture;
 import com.fstg.g_emediatek.bean.Produit;
 import com.fstg.g_emediatek.dao.LigneFactureDao;
 import java.util.List;
-import org.eclipse.persistence.exceptions.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +24,7 @@ public class LigneFactureServiceImpl implements LigneFactureService{
 
     @Autowired
     public LigneFactureDao ligneFactureDao;
-    @Autowired
-    private ProduitService produitService;
+    
     
     @Override
     public List<LigneFacture> findAll() {
@@ -66,16 +63,12 @@ public class LigneFactureServiceImpl implements LigneFactureService{
 
     @Override
     public void save(List<LigneFacture> ligneFactures, Facture facture) {
-        try {
-    
         for(LigneFacture l:ligneFactures){
             l.setFacture(facture);
             ligneFactureDao.save(l);
            // save(l);
         }
-      }catch(DatabaseException e){
-            System.out.println(e.getMessage());
-      }
+      
     
   }
 }

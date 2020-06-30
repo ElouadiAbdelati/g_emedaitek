@@ -6,6 +6,7 @@
 package com.fstg.e_emediatek.service;
 
 import com.fstg.g_emediatek.bean.Facture;
+
 import java.util.List;
 
 /**
@@ -19,6 +20,6 @@ public interface FactureService {
     public void deleteFacture(long id);
     public Facture findById(long id);
     public void save(Facture facture);
-    public int saveFacture(Facture facture);
+    public Facture saveFacture(Facture facture);
 
 }

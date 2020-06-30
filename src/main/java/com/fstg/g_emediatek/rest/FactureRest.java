@@ -31,7 +31,7 @@ public class FactureRest {
     public FactureService factureService;
     
     @PostMapping(value = "/")
-    public int saveFacture(@RequestBody Facture facture) {
+    public Facture saveFacture(@RequestBody Facture facture) {
        return  factureService.saveFacture(facture);
     }
     

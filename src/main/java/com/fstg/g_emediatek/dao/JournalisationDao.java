@@ -8,7 +8,6 @@ package com.fstg.g_emediatek.dao;
 
 import com.fstg.g_emediatek.bean.Journalisation;
 import com.fstg.g_emediatek.bean.Produit;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

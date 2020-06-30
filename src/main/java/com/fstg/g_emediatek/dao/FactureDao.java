@@ -9,7 +9,6 @@ import com.fstg.g_emediatek.bean.Facture;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,6 +22,6 @@ public interface FactureDao extends JpaRepository<Facture, Long> {
    // @Procedure("saveFacture")
     @Query(nativeQuery = true,value="select saveFacture(?1,?2,?3) from dual")
     public Long saveFacture(String numeroFacture,Date date_facturation ,Long client);
-    @Query(nativeQuery = true ,value = "select numero_facture from facture where id=(select max(id) from facture)")
-    public String  findFactureByMaxId();
+    @Query(nativeQuery = true ,value = "select * from facture where id=(select max(id) from facture)")
+    public Facture  findFactureByMaxId();
 }

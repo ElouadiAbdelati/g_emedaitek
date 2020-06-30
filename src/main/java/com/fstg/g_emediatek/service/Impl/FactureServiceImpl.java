@@ -5,13 +5,10 @@
  */
 package com.fstg.g_emediatek.service.Impl;
 
-import com.fstg.e_emediatek.service.ClientService;
 import com.fstg.e_emediatek.service.FactureService;
 import com.fstg.e_emediatek.service.LigneFactureService;
-import com.fstg.e_emediatek.service.ProduitService;
 import com.fstg.g_emediatek.bean.Facture;
 import com.fstg.g_emediatek.bean.LigneFacture;
-import com.fstg.g_emediatek.bean.Produit;
 import com.fstg.g_emediatek.dao.FactureDao;
 import java.util.Date;
 import java.util.List;
@@ -27,12 +24,10 @@ public class FactureServiceImpl implements FactureService {
 
     @Autowired
     private FactureDao factureDao;
-    @Autowired
-    private ClientService clinetService;
+   
     @Autowired
     private LigneFactureService ligneFactureService;
-    @Autowired
-    private ProduitService produitService;
+    
 
     @Override
     public Facture findByNumeroFacture(String numeroFacture) {
@@ -65,30 +60,28 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public int saveFacture(Facture facture) {
-        facture.setClient(clinetService.findByCode(facture.getClient().getCode()));
+    public Facture saveFacture(Facture facture) {
         if (valideProduits(facture.getLigneFactures())) {
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
             facture.setDateFacturation(date);
-            System.out.println("date  " + facture.getDateFacturation());
             facture.setNumeroFacture(refereceFacture());
-            System.out.println("reft  " + facture.getNumeroFacture());
-             factureDao.save(facture);
-            ligneFactureService.save(facture.getLigneFactures(),facture);
-            return 1;
+            facture = factureDao.save(facture);
+            ligneFactureService.save(facture.getLigneFactures(), facture);
+       
+            return facture;
         }
 
-        return -1;
+        return null;
     }
 
     private String refereceFacture() {
-        String ref="";
-        String facture = factureDao.findFactureByMaxId();
-        if (facture=="") {
+        String ref = "";
+        Facture facture = factureDao.findFactureByMaxId();
+         if (facture == null) {
             ref = "F1";
         } else {
-            int n = (Integer.parseInt(facture.substring(1, facture.length())) + 1);
+             int n = (Integer.parseInt(facture.getNumeroFacture().substring(1, facture.getNumeroFacture().length())) + 1);
             ref = "F" + n;
         }
         return ref;
@@ -96,12 +89,12 @@ public class FactureServiceImpl implements FactureService {
 
     private boolean valideProduits(List<LigneFacture> ligneFactures) {
         for (LigneFacture l : ligneFactures) {
-            l.setProduit(produitService.findByCodeBarre(l.getProduit().getCodeBarre()));
             if ((l.getProduit().getQteStock() - l.getQteAchetee()) < 0) {
                 return false;
             }
         }
         return true;
     }
+ 
 
 }

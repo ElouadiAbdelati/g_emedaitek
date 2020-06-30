@@ -5,7 +5,6 @@
  */
 package com.fstg.e_emediatek.service;
 
-import com.fstg.g_emediatek.bean.Client;
 import com.fstg.g_emediatek.bean.Journalisation;
 import com.fstg.g_emediatek.bean.Produit;
 import java.util.List;
